@@ -18,10 +18,14 @@ import * as gqlACGuard from "../../auth/gqlAC.guard";
 import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
+import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
+import { CreateSettingArgs } from "./CreateSettingArgs";
+import { UpdateSettingArgs } from "./UpdateSettingArgs";
 import { DeleteSettingArgs } from "./DeleteSettingArgs";
 import { SettingFindManyArgs } from "./SettingFindManyArgs";
 import { SettingFindUniqueArgs } from "./SettingFindUniqueArgs";
 import { Setting } from "./Setting";
+import { User } from "../../user/base/User";
 import { SettingService } from "../setting.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
 @graphql.Resolver(() => Setting)
@@ -80,6 +84,63 @@ export class SettingResolverBase {
     return result;
   }
 
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => Setting)
+  @nestAccessControl.UseRoles({
+    resource: "Setting",
+    action: "create",
+    possession: "any",
+  })
+  async createSetting(
+    @graphql.Args() args: CreateSettingArgs
+  ): Promise<Setting> {
+    return await this.service.create({
+      ...args,
+      data: {
+        ...args.data,
+
+        user: args.data.user
+          ? {
+              connect: args.data.user,
+            }
+          : undefined,
+      },
+    });
+  }
+
+  @common.UseInterceptors(AclValidateRequestInterceptor)
+  @graphql.Mutation(() => Setting)
+  @nestAccessControl.UseRoles({
+    resource: "Setting",
+    action: "update",
+    possession: "any",
+  })
+  async updateSetting(
+    @graphql.Args() args: UpdateSettingArgs
+  ): Promise<Setting | null> {
+    try {
+      return await this.service.update({
+        ...args,
+        data: {
+          ...args.data,
+
+          user: args.data.user
+            ? {
+                connect: args.data.user,
+              }
+            : undefined,
+        },
+      });
+    } catch (error) {
+      if (isRecordNotFoundError(error)) {
+        throw new apollo.ApolloError(
+          `No resource was found for ${JSON.stringify(args.where)}`
+        );
+      }
+      throw error;
+    }
+  }
+
   @graphql.Mutation(() => Setting)
   @nestAccessControl.UseRoles({
     resource: "Setting",
@@ -99,5 +160,21 @@ export class SettingResolverBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @graphql.ResolveField(() => User, { nullable: true })
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "read",
+    possession: "any",
+  })
+  async user(@graphql.Parent() parent: Setting): Promise<User | null> {
+    const result = await this.service.getUser(parent.id);
+
+    if (!result) {
+      return null;
+    }
+    return result;
   }
 }
