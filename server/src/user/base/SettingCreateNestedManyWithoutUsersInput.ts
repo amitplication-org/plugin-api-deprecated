@@ -10,24 +10,19 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { InputType, Field } from "@nestjs/graphql";
+import { SettingWhereUniqueInput } from "../../setting/base/SettingWhereUniqueInput";
 import { ApiProperty } from "@nestjs/swagger";
-import { UserWhereUniqueInput } from "../../user/base/UserWhereUniqueInput";
-import { ValidateNested, IsOptional } from "class-validator";
-import { Type } from "class-transformer";
 
 @InputType()
-class SettingUpdateInput {
-  @ApiProperty({
-    required: false,
-    type: () => UserWhereUniqueInput,
-  })
-  @ValidateNested()
-  @Type(() => UserWhereUniqueInput)
-  @IsOptional()
-  @Field(() => UserWhereUniqueInput, {
+class SettingCreateNestedManyWithoutUsersInput {
+  @Field(() => [SettingWhereUniqueInput], {
     nullable: true,
   })
-  user?: UserWhereUniqueInput | null;
+  @ApiProperty({
+    required: false,
+    type: () => [SettingWhereUniqueInput],
+  })
+  connect?: Array<SettingWhereUniqueInput>;
 }
 
-export { SettingUpdateInput as SettingUpdateInput };
+export { SettingCreateNestedManyWithoutUsersInput as SettingCreateNestedManyWithoutUsersInput };

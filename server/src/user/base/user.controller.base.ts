@@ -27,6 +27,9 @@ import { UserWhereUniqueInput } from "./UserWhereUniqueInput";
 import { UserFindManyArgs } from "./UserFindManyArgs";
 import { UserUpdateInput } from "./UserUpdateInput";
 import { User } from "./User";
+import { SettingFindManyArgs } from "../../setting/base/SettingFindManyArgs";
+import { Setting } from "../../setting/base/Setting";
+import { SettingWhereUniqueInput } from "../../setting/base/SettingWhereUniqueInput";
 
 @swagger.ApiBearerAuth()
 @common.UseGuards(defaultAuthGuard.DefaultAuthGuard, nestAccessControl.ACGuard)
@@ -199,5 +202,106 @@ export class UserControllerBase {
       }
       throw error;
     }
+  }
+
+  @common.UseInterceptors(AclFilterResponseInterceptor)
+  @common.Get("/:id/settings")
+  @ApiNestedQuery(SettingFindManyArgs)
+  @nestAccessControl.UseRoles({
+    resource: "Setting",
+    action: "read",
+    possession: "any",
+  })
+  async findManySettings(
+    @common.Req() request: Request,
+    @common.Param() params: UserWhereUniqueInput
+  ): Promise<Setting[]> {
+    const query = plainToClass(SettingFindManyArgs, request.query);
+    const results = await this.service.findSettings(params.id, {
+      ...query,
+      select: {
+        id: true,
+        createdAt: true,
+        updatedAt: true,
+
+        user: {
+          select: {
+            id: true,
+          },
+        },
+      },
+    });
+    if (results === null) {
+      throw new errors.NotFoundException(
+        `No resource was found for ${JSON.stringify(params)}`
+      );
+    }
+    return results;
+  }
+
+  @common.Post("/:id/settings")
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  async connectSettings(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: SettingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      settings: {
+        connect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Patch("/:id/settings")
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  async updateSettings(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: SettingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      settings: {
+        set: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
+  }
+
+  @common.Delete("/:id/settings")
+  @nestAccessControl.UseRoles({
+    resource: "User",
+    action: "update",
+    possession: "any",
+  })
+  async disconnectSettings(
+    @common.Param() params: UserWhereUniqueInput,
+    @common.Body() body: SettingWhereUniqueInput[]
+  ): Promise<void> {
+    const data = {
+      settings: {
+        disconnect: body,
+      },
+    };
+    await this.service.update({
+      where: params,
+      data,
+      select: { id: true },
+    });
   }
 }
