@@ -1,5 +1,1 @@
-import { UserWhereUniqueInput } from "../user/UserWhereUniqueInput";
-
-export type SettingCreateInput = {
-  user?: UserWhereUniqueInput | null;
-};
+export type SettingCreateInput = {};
