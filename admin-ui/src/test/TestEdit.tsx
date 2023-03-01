@@ -1,11 +1,15 @@
 import * as React from "react";
+
 import {
   Edit,
   SimpleForm,
   EditProps,
   ReferenceArrayInput,
   SelectArrayInput,
+  TextInput,
+  NumberInput,
 } from "react-admin";
+
 import { UserTitle } from "../user/UserTitle";
 
 export const TestEdit = (props: EditProps): React.ReactElement => {
@@ -20,6 +24,8 @@ export const TestEdit = (props: EditProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={UserTitle} />
         </ReferenceArrayInput>
+        <TextInput label="name" source="name" />
+        <NumberInput step={1} label="test-number" source="testNumber" />
       </SimpleForm>
     </Edit>
   );

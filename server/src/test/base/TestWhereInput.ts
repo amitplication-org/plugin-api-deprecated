@@ -15,6 +15,8 @@ import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
 import { UserListRelationFilter } from "../../user/base/UserListRelationFilter";
+import { StringNullableFilter } from "../../util/StringNullableFilter";
+import { IntNullableFilter } from "../../util/IntNullableFilter";
 
 @InputType()
 class TestWhereInput {
@@ -40,6 +42,28 @@ class TestWhereInput {
     nullable: true,
   })
   users?: UserListRelationFilter;
+
+  @ApiProperty({
+    required: false,
+    type: StringNullableFilter,
+  })
+  @Type(() => StringNullableFilter)
+  @IsOptional()
+  @Field(() => StringNullableFilter, {
+    nullable: true,
+  })
+  name?: StringNullableFilter;
+
+  @ApiProperty({
+    required: false,
+    type: IntNullableFilter,
+  })
+  @Type(() => IntNullableFilter)
+  @IsOptional()
+  @Field(() => IntNullableFilter, {
+    nullable: true,
+  })
+  testNumber?: IntNullableFilter;
 }
 
 export { TestWhereInput as TestWhereInput };

@@ -2,4 +2,6 @@ import { UserUpdateManyWithoutTestsInput } from "./UserUpdateManyWithoutTestsInp
 
 export type TestUpdateInput = {
   users?: UserUpdateManyWithoutTestsInput;
+  name?: string | null;
+  testNumber?: number | null;
 };
