@@ -16,6 +16,8 @@ import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
 import { SettingUpdateManyWithoutUsersInput } from "./SettingUpdateManyWithoutUsersInput";
 import { Type } from "class-transformer";
+import { TestWhereUniqueInput } from "../../test/base/TestWhereUniqueInput";
+
 
 @InputType()
 class UserUpdateInput {
@@ -84,6 +86,18 @@ class UserUpdateInput {
     nullable: true,
   })
   settings?: SettingUpdateManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => TestWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => TestWhereUniqueInput)
+  @IsOptional()
+  @Field(() => TestWhereUniqueInput, {
+    nullable: true,
+  })
+  test?: TestWhereUniqueInput | null;
 }
 
 export { UserUpdateInput as UserUpdateInput };

@@ -17,6 +17,8 @@ model User {
   password  String
   roles     Json
   settings  Setting[]
+  test      Test?     @relation(fields: [testId], references: [id])
+  testId    String?
 }
 
 model Setting {
@@ -26,3 +28,11 @@ model Setting {
   user      User?    @relation(fields: [userId], references: [id])
   userId    String?
 }
+
+model Test {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     User[]
+}
+

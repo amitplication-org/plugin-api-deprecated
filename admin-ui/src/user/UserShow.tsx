@@ -6,6 +6,13 @@ import {
   ShowProps,
   TextField,
   DateField,
+  ReferenceField,
+  ReferenceManyField,
+  Datagrid,
+} from "react-admin";
+
+import { USER_TITLE_FIELD } from "./UserTitle";
+import { TEST_TITLE_FIELD } from "../test/TestTitle";
   ReferenceManyField,
   Datagrid,
   ReferenceField,
@@ -24,6 +31,10 @@ export const UserShow = (props: ShowProps): React.ReactElement => {
         <TextField label="Last Name" source="lastName" />
         <TextField label="Username" source="username" />
         <TextField label="Roles" source="roles" />
+        <ReferenceField label="Test" source="test.id" reference="Test">
+          <TextField source={TEST_TITLE_FIELD} />
+        </ReferenceField>
+
         <ReferenceManyField
           reference="Setting"
           target="UserId"

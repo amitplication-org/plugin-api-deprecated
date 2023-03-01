@@ -16,6 +16,8 @@ import { GraphQLJSON } from "graphql-type-json";
 import { InputJsonValue } from "../../types";
 import { SettingCreateNestedManyWithoutUsersInput } from "./SettingCreateNestedManyWithoutUsersInput";
 import { Type } from "class-transformer";
+import { TestWhereUniqueInput } from "../../test/base/TestWhereUniqueInput";
+
 
 @InputType()
 class UserCreateInput {
@@ -75,6 +77,19 @@ class UserCreateInput {
     nullable: true,
   })
   settings?: SettingCreateNestedManyWithoutUsersInput;
+
+  @ApiProperty({
+    required: false,
+    type: () => TestWhereUniqueInput,
+  })
+  @ValidateNested()
+  @Type(() => TestWhereUniqueInput)
+  @IsOptional()
+  @Field(() => TestWhereUniqueInput, {
+    nullable: true,
+  })
+  test?: TestWhereUniqueInput | null;
+
 }
 
 export { UserCreateInput as UserCreateInput };

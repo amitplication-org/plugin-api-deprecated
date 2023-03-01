@@ -10,7 +10,7 @@ https://docs.amplication.com/how-to/custom-code
 ------------------------------------------------------------------------------
   */
 import { PrismaService } from "../../prisma/prisma.service";
-import { Prisma, User, Setting } from "@prisma/client";
+import { Prisma, User, Setting, Test } from "@prisma/client";
 import { PasswordService } from "../../auth/password.service";
 import { transformStringFieldUpdateInput } from "../../prisma.util";
 
@@ -81,5 +81,13 @@ export class UserServiceBase {
         where: { id: parentId },
       })
       .settings(args);
+  }
+
+  async getTest(parentId: string): Promise<Test | null> {
+    return this.prisma.user
+      .findUnique({
+        where: { id: parentId },
+      })
+      .test();
   }
 }
