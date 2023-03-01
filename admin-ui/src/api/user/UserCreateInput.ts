@@ -1,5 +1,6 @@
 import { InputJsonValue } from "../../types";
 import { SettingCreateNestedManyWithoutUsersInput } from "./SettingCreateNestedManyWithoutUsersInput";
+import { TestWhereUniqueInput } from "../test/TestWhereUniqueInput";
 
 export type UserCreateInput = {
   firstName?: string | null;
@@ -8,4 +9,5 @@ export type UserCreateInput = {
   password: string;
   roles: InputJsonValue;
   settings?: SettingCreateNestedManyWithoutUsersInput;
+  test?: TestWhereUniqueInput | null;
 };

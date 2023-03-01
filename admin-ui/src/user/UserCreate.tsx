@@ -8,9 +8,12 @@ import {
   PasswordInput,
   SelectArrayInput,
   ReferenceArrayInput,
+  ReferenceInput,
+  SelectInput,
 } from "react-admin";
 
 import { SettingTitle } from "../setting/SettingTitle";
+import { TestTitle } from "../test/TestTitle";
 import { ROLES_OPTIONS } from "../user/RolesOptions";
 
 export const UserCreate = (props: CreateProps): React.ReactElement => {
@@ -35,6 +38,9 @@ export const UserCreate = (props: CreateProps): React.ReactElement => {
         >
           <SelectArrayInput optionText={SettingTitle} />
         </ReferenceArrayInput>
+        <ReferenceInput source="test.id" reference="Test" label="Test">
+          <SelectInput optionText={TestTitle} />
+        </ReferenceInput>
       </SimpleForm>
     </Create>
   );

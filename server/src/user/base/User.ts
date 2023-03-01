@@ -22,6 +22,7 @@ import { Type } from "class-transformer";
 import { GraphQLJSON } from "graphql-type-json";
 import { JsonValue } from "type-fest";
 import { Setting } from "../../setting/base/Setting";
+import { Test } from "../../test/base/Test";
 
 @ObjectType()
 class User {
@@ -94,6 +95,15 @@ class User {
   @Type(() => Setting)
   @IsOptional()
   settings?: Array<Setting>;
+
+  @ApiProperty({
+    required: false,
+    type: () => Test,
+  })
+  @ValidateNested()
+  @Type(() => Test)
+  @IsOptional()
+  test?: Test | null;
 }
 
 export { User as User };
