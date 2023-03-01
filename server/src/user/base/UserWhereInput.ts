@@ -18,6 +18,7 @@ import { StringNullableFilter } from "../../util/StringNullableFilter";
 import { SettingListRelationFilter } from "../../setting/base/SettingListRelationFilter";
 import { TestWhereUniqueInput } from "../../test/base/TestWhereUniqueInput";
 
+
 @InputType()
 class UserWhereInput {
   @ApiProperty({
@@ -87,6 +88,7 @@ class UserWhereInput {
     nullable: true,
   })
   test?: TestWhereUniqueInput;
+
 }
 
 export { UserWhereInput as UserWhereInput };

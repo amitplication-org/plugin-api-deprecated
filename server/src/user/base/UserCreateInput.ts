@@ -18,6 +18,7 @@ import { SettingCreateNestedManyWithoutUsersInput } from "./SettingCreateNestedM
 import { Type } from "class-transformer";
 import { TestWhereUniqueInput } from "../../test/base/TestWhereUniqueInput";
 
+
 @InputType()
 class UserCreateInput {
   @ApiProperty({
@@ -88,6 +89,7 @@ class UserCreateInput {
     nullable: true,
   })
   test?: TestWhereUniqueInput | null;
+
 }
 
 export { UserCreateInput as UserCreateInput };

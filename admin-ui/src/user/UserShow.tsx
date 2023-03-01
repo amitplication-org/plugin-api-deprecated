@@ -13,6 +13,12 @@ import {
 
 import { USER_TITLE_FIELD } from "./UserTitle";
 import { TEST_TITLE_FIELD } from "../test/TestTitle";
+  ReferenceManyField,
+  Datagrid,
+  ReferenceField,
+} from "react-admin";
+
+import { USER_TITLE_FIELD } from "./UserTitle";
 
 export const UserShow = (props: ShowProps): React.ReactElement => {
   return (
@@ -28,6 +34,7 @@ export const UserShow = (props: ShowProps): React.ReactElement => {
         <ReferenceField label="Test" source="test.id" reference="Test">
           <TextField source={TEST_TITLE_FIELD} />
         </ReferenceField>
+
         <ReferenceManyField
           reference="Setting"
           target="UserId"

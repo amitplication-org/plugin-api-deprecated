@@ -18,6 +18,7 @@ import { SettingUpdateManyWithoutUsersInput } from "./SettingUpdateManyWithoutUs
 import { Type } from "class-transformer";
 import { TestWhereUniqueInput } from "../../test/base/TestWhereUniqueInput";
 
+
 @InputType()
 class UserUpdateInput {
   @ApiProperty({

@@ -11,11 +11,11 @@ import {
   ReferenceInput,
   SelectInput,
 } from "react-admin";
-
 import { SettingTitle } from "../setting/SettingTitle";
 import { TestTitle } from "../test/TestTitle";
+} from "react-admin";
+import { SettingTitle } from "../setting/SettingTitle";
 import { ROLES_OPTIONS } from "../user/RolesOptions";
-
 export const UserEdit = (props: EditProps): React.ReactElement => {
   return (
     <Edit {...props}>

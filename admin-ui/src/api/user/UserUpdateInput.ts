@@ -2,6 +2,7 @@ import { InputJsonValue } from "../../types";
 import { SettingUpdateManyWithoutUsersInput } from "./SettingUpdateManyWithoutUsersInput";
 import { TestWhereUniqueInput } from "../test/TestWhereUniqueInput";
 
+
 export type UserUpdateInput = {
   firstName?: string | null;
   lastName?: string | null;

@@ -24,6 +24,7 @@ import { JsonValue } from "type-fest";
 import { Setting } from "../../setting/base/Setting";
 import { Test } from "../../test/base/Test";
 
+
 @ObjectType()
 class User {
   @ApiProperty({

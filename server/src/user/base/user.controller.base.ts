@@ -68,7 +68,6 @@ export class UserControllerBase {
         lastName: true,
         username: true,
         roles: true,
-
         test: {
           select: {
             id: true,
@@ -102,7 +101,6 @@ export class UserControllerBase {
         lastName: true,
         username: true,
         roles: true,
-
         test: {
           select: {
             id: true,
@@ -137,7 +135,6 @@ export class UserControllerBase {
         lastName: true,
         username: true,
         roles: true,
-
         test: {
           select: {
             id: true,
@@ -189,7 +186,6 @@ export class UserControllerBase {
           lastName: true,
           username: true,
           roles: true,
-
           test: {
             select: {
               id: true,
@@ -232,7 +228,6 @@ export class UserControllerBase {
           lastName: true,
           username: true,
           roles: true,
-
           test: {
             select: {
               id: true,
