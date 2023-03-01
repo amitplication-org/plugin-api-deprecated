@@ -51,7 +51,15 @@ export class UserControllerBase {
   })
   async create(@common.Body() data: UserCreateInput): Promise<User> {
     return await this.service.create({
-      data: data,
+      data: {
+        ...data,
+
+        test: data.test
+          ? {
+              connect: data.test,
+            }
+          : undefined,
+      },
       select: {
         id: true,
         createdAt: true,
@@ -60,6 +68,12 @@ export class UserControllerBase {
         lastName: true,
         username: true,
         roles: true,
+
+        test: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -88,6 +102,12 @@ export class UserControllerBase {
         lastName: true,
         username: true,
         roles: true,
+
+        test: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
   }
@@ -117,6 +137,12 @@ export class UserControllerBase {
         lastName: true,
         username: true,
         roles: true,
+
+        test: {
+          select: {
+            id: true,
+          },
+        },
       },
     });
     if (result === null) {
@@ -146,7 +172,15 @@ export class UserControllerBase {
     try {
       return await this.service.update({
         where: params,
-        data: data,
+        data: {
+          ...data,
+
+          test: data.test
+            ? {
+                connect: data.test,
+              }
+            : undefined,
+        },
         select: {
           id: true,
           createdAt: true,
@@ -155,6 +189,12 @@ export class UserControllerBase {
           lastName: true,
           username: true,
           roles: true,
+
+          test: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {
@@ -192,6 +232,12 @@ export class UserControllerBase {
           lastName: true,
           username: true,
           roles: true,
+
+          test: {
+            select: {
+              id: true,
+            },
+          },
         },
       });
     } catch (error) {
