@@ -14,6 +14,7 @@ import { ApiProperty } from "@nestjs/swagger";
 import { UserUpdateManyWithoutTestsInput } from "./UserUpdateManyWithoutTestsInput";
 import { ValidateNested, IsOptional, IsString, IsInt } from "class-validator";
 import { Type } from "class-transformer";
+import { TeacherUpdateManyWithoutTestsInput } from "./TeacherUpdateManyWithoutTestsInput";
 
 @InputType()
 class TestUpdateInput {
@@ -50,6 +51,18 @@ class TestUpdateInput {
     nullable: true,
   })
   testNumber?: number | null;
+
+  @ApiProperty({
+    required: false,
+    type: () => TeacherUpdateManyWithoutTestsInput,
+  })
+  @ValidateNested()
+  @Type(() => TeacherUpdateManyWithoutTestsInput)
+  @IsOptional()
+  @Field(() => TeacherUpdateManyWithoutTestsInput, {
+    nullable: true,
+  })
+  teachers?: TeacherUpdateManyWithoutTestsInput;
 }
 
 export { TestUpdateInput as TestUpdateInput };

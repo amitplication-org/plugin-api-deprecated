@@ -19,33 +19,31 @@ import { GqlDefaultAuthGuard } from "../../auth/gqlDefaultAuth.guard";
 import * as common from "@nestjs/common";
 import { AclFilterResponseInterceptor } from "../../interceptors/aclFilterResponse.interceptor";
 import { AclValidateRequestInterceptor } from "../../interceptors/aclValidateRequest.interceptor";
-import { CreateTestArgs } from "./CreateTestArgs";
-import { UpdateTestArgs } from "./UpdateTestArgs";
-import { DeleteTestArgs } from "./DeleteTestArgs";
-import { TestFindManyArgs } from "./TestFindManyArgs";
-import { TestFindUniqueArgs } from "./TestFindUniqueArgs";
-import { Test } from "./Test";
-import { UserFindManyArgs } from "../../user/base/UserFindManyArgs";
-import { User } from "../../user/base/User";
-import { TeacherFindManyArgs } from "../../teacher/base/TeacherFindManyArgs";
-import { Teacher } from "../../teacher/base/Teacher";
-import { TestService } from "../test.service";
+import { CreateTeacherArgs } from "./CreateTeacherArgs";
+import { UpdateTeacherArgs } from "./UpdateTeacherArgs";
+import { DeleteTeacherArgs } from "./DeleteTeacherArgs";
+import { TeacherFindManyArgs } from "./TeacherFindManyArgs";
+import { TeacherFindUniqueArgs } from "./TeacherFindUniqueArgs";
+import { Teacher } from "./Teacher";
+import { TestFindManyArgs } from "../../test/base/TestFindManyArgs";
+import { Test } from "../../test/base/Test";
+import { TeacherService } from "../teacher.service";
 @common.UseGuards(GqlDefaultAuthGuard, gqlACGuard.GqlACGuard)
-@graphql.Resolver(() => Test)
-export class TestResolverBase {
+@graphql.Resolver(() => Teacher)
+export class TeacherResolverBase {
   constructor(
-    protected readonly service: TestService,
+    protected readonly service: TeacherService,
     protected readonly rolesBuilder: nestAccessControl.RolesBuilder
   ) {}
 
   @graphql.Query(() => MetaQueryPayload)
   @nestAccessControl.UseRoles({
-    resource: "Test",
+    resource: "Teacher",
     action: "read",
     possession: "any",
   })
-  async _testsMeta(
-    @graphql.Args() args: TestFindManyArgs
+  async _teachersMeta(
+    @graphql.Args() args: TeacherFindManyArgs
   ): Promise<MetaQueryPayload> {
     const results = await this.service.count({
       ...args,
@@ -58,24 +56,28 @@ export class TestResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.Query(() => [Test])
+  @graphql.Query(() => [Teacher])
   @nestAccessControl.UseRoles({
-    resource: "Test",
+    resource: "Teacher",
     action: "read",
     possession: "any",
   })
-  async tests(@graphql.Args() args: TestFindManyArgs): Promise<Test[]> {
+  async teachers(
+    @graphql.Args() args: TeacherFindManyArgs
+  ): Promise<Teacher[]> {
     return this.service.findMany(args);
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.Query(() => Test, { nullable: true })
+  @graphql.Query(() => Teacher, { nullable: true })
   @nestAccessControl.UseRoles({
-    resource: "Test",
+    resource: "Teacher",
     action: "read",
     possession: "own",
   })
-  async test(@graphql.Args() args: TestFindUniqueArgs): Promise<Test | null> {
+  async teacher(
+    @graphql.Args() args: TeacherFindUniqueArgs
+  ): Promise<Teacher | null> {
     const result = await this.service.findOne(args);
     if (result === null) {
       return null;
@@ -84,13 +86,15 @@ export class TestResolverBase {
   }
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
-  @graphql.Mutation(() => Test)
+  @graphql.Mutation(() => Teacher)
   @nestAccessControl.UseRoles({
-    resource: "Test",
+    resource: "Teacher",
     action: "create",
     possession: "any",
   })
-  async createTest(@graphql.Args() args: CreateTestArgs): Promise<Test> {
+  async createTeacher(
+    @graphql.Args() args: CreateTeacherArgs
+  ): Promise<Teacher> {
     return await this.service.create({
       ...args,
       data: args.data,
@@ -98,13 +102,15 @@ export class TestResolverBase {
   }
 
   @common.UseInterceptors(AclValidateRequestInterceptor)
-  @graphql.Mutation(() => Test)
+  @graphql.Mutation(() => Teacher)
   @nestAccessControl.UseRoles({
-    resource: "Test",
+    resource: "Teacher",
     action: "update",
     possession: "any",
   })
-  async updateTest(@graphql.Args() args: UpdateTestArgs): Promise<Test | null> {
+  async updateTeacher(
+    @graphql.Args() args: UpdateTeacherArgs
+  ): Promise<Teacher | null> {
     try {
       return await this.service.update({
         ...args,
@@ -120,13 +126,15 @@ export class TestResolverBase {
     }
   }
 
-  @graphql.Mutation(() => Test)
+  @graphql.Mutation(() => Teacher)
   @nestAccessControl.UseRoles({
-    resource: "Test",
+    resource: "Teacher",
     action: "delete",
     possession: "any",
   })
-  async deleteTest(@graphql.Args() args: DeleteTestArgs): Promise<Test | null> {
+  async deleteTeacher(
+    @graphql.Args() args: DeleteTeacherArgs
+  ): Promise<Teacher | null> {
     try {
       return await this.service.delete(args);
     } catch (error) {
@@ -140,37 +148,17 @@ export class TestResolverBase {
   }
 
   @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [User])
+  @graphql.ResolveField(() => [Test])
   @nestAccessControl.UseRoles({
-    resource: "User",
+    resource: "Test",
     action: "read",
     possession: "any",
   })
-  async users(
-    @graphql.Parent() parent: Test,
-    @graphql.Args() args: UserFindManyArgs
-  ): Promise<User[]> {
-    const results = await this.service.findUsers(parent.id, args);
-
-    if (!results) {
-      return [];
-    }
-
-    return results;
-  }
-
-  @common.UseInterceptors(AclFilterResponseInterceptor)
-  @graphql.ResolveField(() => [Teacher])
-  @nestAccessControl.UseRoles({
-    resource: "Teacher",
-    action: "read",
-    possession: "any",
-  })
-  async teachers(
-    @graphql.Parent() parent: Test,
-    @graphql.Args() args: TeacherFindManyArgs
-  ): Promise<Teacher[]> {
-    const results = await this.service.findTeachers(parent.id, args);
+  async test(
+    @graphql.Parent() parent: Teacher,
+    @graphql.Args() args: TestFindManyArgs
+  ): Promise<Test[]> {
+    const results = await this.service.findTest(parent.id, args);
 
     if (!results) {
       return [];

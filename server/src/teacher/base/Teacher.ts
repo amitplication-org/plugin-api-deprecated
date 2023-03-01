@@ -11,19 +11,12 @@ https://docs.amplication.com/how-to/custom-code
   */
 import { ObjectType, Field } from "@nestjs/graphql";
 import { ApiProperty } from "@nestjs/swagger";
-import {
-  IsString,
-  IsDate,
-  ValidateNested,
-  IsOptional,
-  IsInt,
-} from "class-validator";
+import { IsString, IsDate, IsOptional, ValidateNested } from "class-validator";
 import { Type } from "class-transformer";
-import { User } from "../../user/base/User";
-import { Teacher } from "../../teacher/base/Teacher";
+import { Test } from "../../test/base/Test";
 
 @ObjectType()
-class Test {
+class Teacher {
   @ApiProperty({
     required: true,
     type: String,
@@ -50,15 +43,6 @@ class Test {
 
   @ApiProperty({
     required: false,
-    type: () => [User],
-  })
-  @ValidateNested()
-  @Type(() => User)
-  @IsOptional()
-  users?: Array<User>;
-
-  @ApiProperty({
-    required: false,
     type: String,
   })
   @IsString()
@@ -70,23 +54,12 @@ class Test {
 
   @ApiProperty({
     required: false,
-    type: Number,
-  })
-  @IsInt()
-  @IsOptional()
-  @Field(() => Number, {
-    nullable: true,
-  })
-  testNumber!: number | null;
-
-  @ApiProperty({
-    required: false,
-    type: () => [Teacher],
+    type: () => [Test],
   })
   @ValidateNested()
-  @Type(() => Teacher)
+  @Type(() => Test)
   @IsOptional()
-  teachers?: Array<Teacher>;
+  test?: Array<Test>;
 }
 
-export { Test as Test };
+export { Teacher as Teacher };

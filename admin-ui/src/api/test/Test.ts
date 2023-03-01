@@ -1,4 +1,5 @@
 import { User } from "../user/User";
+import { Teacher } from "../teacher/Teacher";
 
 export type Test = {
   id: string;
@@ -7,4 +8,5 @@ export type Test = {
   users?: Array<User>;
   name: string | null;
   testNumber: number | null;
+  teachers?: Array<Teacher>;
 };

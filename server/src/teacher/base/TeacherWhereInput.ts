@@ -14,13 +14,11 @@ import { ApiProperty } from "@nestjs/swagger";
 import { StringFilter } from "../../util/StringFilter";
 import { Type } from "class-transformer";
 import { IsOptional, ValidateNested } from "class-validator";
-import { UserListRelationFilter } from "../../user/base/UserListRelationFilter";
 import { StringNullableFilter } from "../../util/StringNullableFilter";
-import { IntNullableFilter } from "../../util/IntNullableFilter";
-import { TeacherListRelationFilter } from "../../teacher/base/TeacherListRelationFilter";
+import { TestListRelationFilter } from "../../test/base/TestListRelationFilter";
 
 @InputType()
-class TestWhereInput {
+class TeacherWhereInput {
   @ApiProperty({
     required: false,
     type: StringFilter,
@@ -31,18 +29,6 @@ class TestWhereInput {
     nullable: true,
   })
   id?: StringFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => UserListRelationFilter,
-  })
-  @ValidateNested()
-  @Type(() => UserListRelationFilter)
-  @IsOptional()
-  @Field(() => UserListRelationFilter, {
-    nullable: true,
-  })
-  users?: UserListRelationFilter;
 
   @ApiProperty({
     required: false,
@@ -57,26 +43,15 @@ class TestWhereInput {
 
   @ApiProperty({
     required: false,
-    type: IntNullableFilter,
-  })
-  @Type(() => IntNullableFilter)
-  @IsOptional()
-  @Field(() => IntNullableFilter, {
-    nullable: true,
-  })
-  testNumber?: IntNullableFilter;
-
-  @ApiProperty({
-    required: false,
-    type: () => TeacherListRelationFilter,
+    type: () => TestListRelationFilter,
   })
   @ValidateNested()
-  @Type(() => TeacherListRelationFilter)
+  @Type(() => TestListRelationFilter)
   @IsOptional()
-  @Field(() => TeacherListRelationFilter, {
+  @Field(() => TestListRelationFilter, {
     nullable: true,
   })
-  teachers?: TeacherListRelationFilter;
+  test?: TestListRelationFilter;
 }
 
-export { TestWhereInput as TestWhereInput };
+export { TeacherWhereInput as TeacherWhereInput };
